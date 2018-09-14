@@ -1,5 +1,7 @@
 cement==3.0.0
 jinja2
-tinydb
+openpyxl
+requests
+json
 pyyaml
 colorlog
