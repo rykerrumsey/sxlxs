@@ -48,7 +48,8 @@ class Sxlxs(App):
         handlers = [
             Base
         ]
-        
+    
+    # load templates into program
     templateLoader = FileSystemLoader('./templates')
     templateEnv = Environment(loader=templateLoader)
     TEMPLATE_FILE = "main_template.html"
@@ -60,15 +61,14 @@ class Sxlxs(App):
 
     wb = load_workbook("./data/bookings.xlsx")
     client_sheet = wb["Clients"]
-    print(client_sheet)
     template = templateEnv.get_template(TEMPLATE_FILE)
 
-    print(wb.sheetnames)
-    
+    # reach out to the randomuser.me API to extract mock data for better visualization
     def get_profiles():
-        #temporary because we can get the amount 
+        # temporary because we can get the amount
         amount = 20
-
+        
+        # http request to randomuser.me API
         r = requests.get('https://randomuser.me/api/?exc=login,gender,name,email,registered,id,nat&results=' + str(amount)  + '&seed=abc')
 
         #must parse json before accessing the object
@@ -76,9 +76,10 @@ class Sxlxs(App):
 
         #clean up object before sending out
         results = json_data['results']
-        print(results) 
+
         return results
 
+    # function that extrats clients from client excel sheet and return them in a list
     def get_clients(client_sheet):
         name_list = []
         for row in client_sheet.iter_rows('A{}:A{}'.format(client_sheet.min_row, client_sheet.max_row)):
@@ -88,43 +89,29 @@ class Sxlxs(App):
         #get rid of column title
         del name_list[0]
         
+        # create a list that stores all the client dicts
         client_list = []
-    
-        print(name_list)
-        
         for clients in name_list:
             first_name = clients.split()[0]
             last_name = clients.split()[1]
-            
-            print(first_name)
-            print(last_name)
-            
             current_client = {}
             current_client["first"] = first_name
             current_client["last"] = last_name
 
             client_list.append(current_client)
-            
-        print(client_list)
 
         return client_list
+
     client_data = get_clients(client_sheet)
-    
-    
+   
+    # function that extracts the pictures from the profiles dict
     def extract_pictures(profiles):
         pictures = []
-        
-        print(profiles)
-
         for client in profiles:
-            print("-------------")
-            print(client['picture']['large'])
-            print("-------------")
             pictures.append(client['picture']['large'])
-
-        print(pictures)
         return pictures
 
+    # generate the final html file by taking the template and inserting the data
     output = template.render(workbook=wb.sheetnames, clients=client_data, number_of_worksheets=len(wb.sheetnames), number_of_clients=len(client_data), pictures=extract_pictures(get_profiles()))
 
     # create the index.html file if it doesn't exist and write the rendered template to it
