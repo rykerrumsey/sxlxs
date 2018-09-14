@@ -1,4 +1,5 @@
 cement==3.0.0
 jinja2
+tinydb
 pyyaml
 colorlog

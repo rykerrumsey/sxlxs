@@ -3,6 +3,9 @@
 
 sxlxs:
 
+### Database file path
+# db_file: ~/.sxlxs/db.json
+
 ### Toggle application level debug (does not toggle framework debugging)
 # debug: false
 
