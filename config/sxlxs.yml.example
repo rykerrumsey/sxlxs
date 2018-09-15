@@ -24,10 +24,6 @@ sxlxs:
 ### The output handler label
 # output_handler: jinja2
 
-### sample foo option
-# foo: bar
-
-
 log.colorlog:
 
 ### Where the log file lives (no log file by default)

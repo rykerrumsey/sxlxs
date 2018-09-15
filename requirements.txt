@@ -2,6 +2,5 @@ cement==3.0.0
 jinja2
 openpyxl
 requests
-json
 pyyaml
 colorlog
