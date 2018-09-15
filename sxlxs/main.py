@@ -53,7 +53,7 @@ class Sxlxs(App):
     templateLoader = FileSystemLoader('./templates')
     templateEnv = Environment(loader=templateLoader)
     TEMPLATE_FILE = "main_template.html"
-        
+       
     if os.path.exists('./data/bookings.xlsx'):
         print("Bookings exists")
     else:
@@ -118,6 +118,10 @@ class Sxlxs(App):
     html_file = open("./data/index.html", 'w')
     html_file.write(output)
     html_file.close()
+
+    print("------------------------------------------------")
+    print("/data/index.html has been generated succesfully!")
+    print("------------------------------------------------")
 
 def main():
     with Sxlxs() as app:
