@@ -1,4 +1,4 @@
-# Imports, parses and displays an excel worksheet.
+# Imports, parses, and converts data to JSON from an excel spreadsheet.
 
 ## Installation
 
