@@ -1,8 +1,9 @@
 class Room:
-    def __init__(self, name, room_type, location, description, issues):
+    def __init__(self, name, location, room_type, rate, description, issues):
         self.name = name
-        self.room_type = room_type
         self.location = location
+        self.room_type = room_type
+        self.rate = rate
         self.description = description
         self.issues = issues
 

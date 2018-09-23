@@ -17,7 +17,7 @@ class Base(Controller):
         description = 'Imports, parses and displays an excel worksheet.'
 
         # text displayed at the bottom of --help output
-        epilog = 'Usage: sxlxs generate-html ./filename'
+        epilog = 'Usage: sxlxs generate --json ./filename'
 
         # controller level arguments. ex: 'sxlxs --version'
         arguments = [

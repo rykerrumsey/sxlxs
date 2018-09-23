@@ -5,17 +5,17 @@ from cement.core.exc import CaughtSignal
 from .core.exc import mainError
 from cement.utils import fs
 
+from openpyxl import load_workbook
+
 # controllers
 from .controllers.base import Base
 from .controllers.generate import Generate
 
-from openpyxl import Workbook, load_workbook
-from jinja2 import Template, FileSystemLoader, Environment
-from pyfiglet import Figlet
-
 # user defined modules
-from .lib.xlsx import *
-from .lib.prompt import *
+from .lib.Cspace import Cspace
+from .lib.utils import printTitleScreen
+
+import json
 
 # configuration defaults
 CONFIG = init_defaults('sxlxs')
@@ -59,24 +59,19 @@ class Sxlxs(App):
 
         hooks = []
 
-    # print title screen
-    # tested 'isometric3' 'o8' 'jazmine' 
-    print()
-    f = Figlet(font='cosmic')
-    print(f.renderText('sxlxs'))
+    printTitleScreen()
 
-    # load templates into program
-    templateLoader = FileSystemLoader('./templates')
-    templateEnv = Environment(loader=templateLoader)
-    TEMPLATE_FILE = "main_template.html"
+    cspace = Cspace(load_workbook("./data/bookings.xlsx"))
+    rooms = cspace.get_rooms()
 
-    wb = load_workbook("./data/bookings.xlsx")
-    template = templateEnv.get_template(TEMPLATE_FILE)
-
-    client_data = get_clients(wb['Clients'])
-    rate_data = get_rates(wb['Rates'])
-    room_data = get_rooms(wb['Facilities'])
-    #calender_data = get_calenders()
+    """
+    if App.pargs.json:
+        render_json(cspace)
+    elif App.pargs.html:
+        render_html(cspace)
+    else:
+        pass
+    """
 
 def main():
     with Sxlxs() as app:
@@ -106,4 +101,4 @@ def main():
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()
